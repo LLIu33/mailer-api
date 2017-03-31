@@ -1,0 +1,33 @@
+{
+    "database-configuration": "mysql://root@localhost:3306/mailer",
+    "mail-settings": {
+        "poolConfig": {
+            "pool": true,
+            "host": "", // for example smtp.gmail.com
+            "port": 465,
+            "secure": true, // use SSL
+            "auth": {}
+        },
+        "fromString": ""
+    },
+    "trap-config": {
+        "enabled": true,
+        "redirect-mail": "artem@intspirit.com"
+    },
+    "oauthCredentials": {
+        "twitter": {
+            "id": "<>",
+            "secret": "<>"
+        },
+        "google": {
+            "id": "<>",
+            "secret": "<>"
+        }
+    },
+
+    "oauthCallbacks": {
+        "googleCallbackUrl": "http://localhost:5000/callback/google",
+        "twitterCallbackUrl": "http://localhost:5000/callback/twitter",
+        "facebookCallbackUrl": "http://localhost:5000/callback/facebook"
+    }
+}
