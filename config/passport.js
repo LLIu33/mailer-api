@@ -1,10 +1,3 @@
-/**
- * Configure all Passport login here so we don't have to keep it in app.js
- */
-
-/**
- * Import modules
- */
 var config          = require('config');
 var User            = require('../models').User;
 var passport        = require('passport');
@@ -20,13 +13,13 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
  * if need be. Depends on how you are handling authentication
  * and serialization
  */
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
+// passport.serializeUser(function(user, done) {
+//   done(null, user);
+// });
+//
+// passport.deserializeUser(function(obj, done) {
+//   done(null, obj);
+// });
 
 // Setting username field to email rather than username
 var localOptions = {
@@ -35,7 +28,8 @@ var localOptions = {
 
 // Setting up local login strategy
 var localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-  User.findOne({ email }, (err, user) => {
+  User.findOne({where: {email: email} })
+  .then((err, user) => {
     if (err) { return done(err); }
     if (!user) { return done(null, false, { error: 'Your login details could not be verified. Please try again.' }); }
 

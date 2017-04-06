@@ -1,10 +1,3 @@
-/**
- * Routing module for handling all routes under /api
- */
-
-/**
- * Import core modules
- */
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
