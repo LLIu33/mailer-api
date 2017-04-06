@@ -1,17 +1,40 @@
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 var User = require('../models/user');
+var User = require('../models').User;
 // var mailgun = require('../config/mailgun');
 var mailHelper = require('../helpers/email');
 var crypto = require('crypto');
 var config = require('config');
 var mailSettings = config.get('mail-settings');
+var gravatar = require('gravatar');
 
 // Generate JWT
 // TO-DO Add issuer and audience
 function generateToken(user) {
   return jwt.sign(user, config.secret, {
     expiresIn: 604800 // in seconds
+  });
+}
+
+var userExists = function(userAttributes) {
+  return User.findOne({
+    where: Sequelize.and({
+      provider: 'local'
+    },
+    Sequelize.or({
+      username: userAttributes.username
+    }, {
+      email: userAttributes.email
+    })
+    )
+  }).then(function(user) {
+    console.log(user);
+    if (!user) return false;
+    return true;
+  }).catch(function(error) {
+    console.log(error);
+    throw error;
   });
 }
 
@@ -30,8 +53,7 @@ function setUserInfo(user) {
 // Login Route
 //= =======================================
 exports.login = function (req, res, next) {
-  console.log(req);
-  var userInfo = setUserInfo(req.user);
+  var userInfo = setUserInfo(req.body);
 
   res.status(200).json({
     token: `JWT ${generateToken(userInfo)}`,
@@ -44,6 +66,7 @@ exports.login = function (req, res, next) {
 // Registration Route
 //= =======================================
 exports.register = function (req, res, next) {
+  var userAttributes = setUserInfo(req.body);
   var user = {
     provider: 'local',
     profile_picture: gravatar.url(userAttributes.email),

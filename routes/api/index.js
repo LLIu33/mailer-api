@@ -22,6 +22,7 @@ router.use('/customers', customers);
 router.use('/mails', mails);
 
 router.post('/login', requireLogin, AuthenticationController.login);
+router.post('/register', AuthenticationController.register);
 
 router.get('/authenticated', authenticationHelpers.isAuth, function(req, res, next) {
   res.json({"authenticated": true});
