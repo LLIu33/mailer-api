@@ -1,15 +1,26 @@
-/**
- * Routing module for handling all routes under /authorize
- */
-
-/**
- * Import core modules
- */
 var express               = require('express');
 var router                = express.Router();
 var passport              = require('passport');
 var authenticationHelpers = require('../authenticationHelpers');
 var userController = require('../../controllers').userController;
+
+// var jwt = require('jsonwebtoken');
+// // var config = require('../config/main');
+
+// // Set auth routes as subgroup/middleware to apiRoutes
+// router.use('/auth', authRoutes);
+
+// // Registration route
+// router.post('/register', AuthenticationController.register);
+
+// // Login route
+// router.post('/login', requireLogin, AuthenticationController.login);
+
+// // Password reset request route (generate/send token)
+// router.post('/forgot-password', AuthenticationController.forgotPassword);
+
+// // Password reset route (change password using token)
+// router.post('/reset-password/:token', AuthenticationController.verifyToken);
 
 /**
  * Authorization route for google provider

@@ -30,21 +30,20 @@ app.set('port', port);
 var server = http.createServer(app);
 
 models.sequelize.sync().then(function() {
-/**
- * Listen on provided port, on all network interfaces.
- */
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
   console.log(`Your server is running on port ${port}.`);
 });
 
+// app.use(logger('dev')); // Log requests to API using morgan
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
 function onError(error) {
+  console.log(error);
   if (error.syscall !== 'listen') {
     throw error;
   }
