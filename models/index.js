@@ -6,7 +6,7 @@ var Sequelize = require("sequelize");
 var env = process.env.NODE_ENV || "development";
 var config = require('config');
 var connectionString = process.env.DATABASE_URL || config.get('database-configuration');
-var sequelize = new Sequelize(connectionString, {});
+var sequelize = new Sequelize(connectionString);
 
 var db = {};
 var ROOT = path.join(path.resolve(__dirname, '..'));

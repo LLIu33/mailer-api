@@ -1,20 +1,16 @@
-/**
- * Module dependencies.
- */
-
 var app = require('./app');
 
 var debug = require('debug')('express-app:server');
 var models = require('./models');
 var http = require('http');
 
-var Server = require('socket.io');
+// var Server = require('socket.io');
 
-var io = new Server().attach(process.env.SOCKETS_PORT || '5001');
-io.on('connection', function(socket) {
+// var io = new Server().attach(process.env.SOCKETS_PORT || '5001');
+// io.on('connection', function(socket) {
   // socket.emit('state', console.log('socket.emit'));
   // socket.on('action', console.log('socket.on'));
-});
+// });
 
 /**
  * Get port from environment and store in Express.

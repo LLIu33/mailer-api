@@ -29,32 +29,26 @@ var localOptions = {
 // Setting up local login strategy
 var localLogin = new LocalStrategy(localOptions, (email, password, done) => {
   User.findOne({where: {email: email} })
-  .then((err, user) => {
-    if (err) { return done(err); }
+  .then((user) => {
     if (!user) { return done(null, false, { error: 'Your login details could not be verified. Please try again.' }); }
-
-    user.verifyPassword(password, (err, isMatch) => {
-      if (err) { return done(err); }
-      if (!isMatch) { return done(null, false, { error: 'Your login details could not be verified. Please try again.' }); }
-
-      return done(null, user);
-    });
+    if (!user.verifyPassword(password)) { return done(null, false,  { error: 'Your login details could not be verified. Please try again.' }); }
+    return done(null, user);
+  }).catch(function(error) {
+    return done(error);
   });
 });
 
 // Setting JWT strategy options
 var jwtOptions = {
-  // Telling Passport to check authorization headers for JWT
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  // Telling Passport where to find the secret
-  secretOrKey: 'my_precious'//config.secret
-
-  // TO-DO: Add issuer and audience checks
+  jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
+  secretOrKey: config.get("secret")
 };
 
 // Setting up JWT login strategy
 var jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  User.findOne({where: {id: payload.id}}, (err, done) => {
+
+  User.findOne({where: {email: payload.email}})
+  .then((user, err) => {
     if (err) { return done(err, false); }
 
     if (user) {
